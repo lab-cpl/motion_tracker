@@ -38,10 +38,13 @@ ser.open()
 def read_ms_from_serial():
     try:
         while True:
+            # waits for message form arduino
             if(ser.inWaiting() > 0):
                 data_raw = ser.readline()
                 read = 1
             else:
+                # if there is no message read = 0
+                # so we pass an NA
                 read = 0
                 break
             try:
