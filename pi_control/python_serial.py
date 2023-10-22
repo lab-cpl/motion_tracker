@@ -23,24 +23,19 @@ ser = serial.Serial(arduino_ports[0])
 ser.baudrate = 115200
 switch = 0
 name = os.uname()[1]
+print("Connection ready!")
 
 
 try:
     while True:
         data_raw = ser.readline()
         try:
-            data = json.loads(data_raw, strict=False)
-            print(data['button_state'])
-            if data['id'] == "a01":
-                if data['button_state'] == True and switch == 1:
-                    switch = 0
-                    #os.system("export DISPLAY=:0")
-                    #os.system("libcamera-vid -t 0  --width 1920 --height 1080 -p 100,100,1000,1000 --info-text '" + name + "' &")
-                if data['button_state'] == False and switch == 0:
-                    switch = 1
-                    os.system("pkill python3")
+            print(data_raw.decode('latin-1'))
+            data = json.loads(data_raw.decode('latin-1'), strict=False)
         except json.decoder.JSONDecodeError:
             print('The string does not contain valid JSON')
+        except UnicodeDecodeError:
+            print('Incorrect decoding')
 finally:
     print("Closing serial connections...")
     ser.close()

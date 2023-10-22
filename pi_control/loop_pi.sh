@@ -2,7 +2,7 @@
 #
 #
 
-echo -n "SET_HOST or REBOOT or START or STOP recording + animal IDs: "
+echo -n "SET_HOST or POWEROFF or REBOOT or START or STOP recording + animal IDs: "
 read -r C ID1 ID2 ID3 ID4
 
 PIARRAY=( pi1 pi2 pi3 pi4 )
@@ -34,11 +34,18 @@ case $C in
 		done
 		;;
 
+	POWEROFF)
+		for i in "${!PIARRAY[@]}"
+		do
+			echo "poweroff in ${PIARRAY[i]} with ID: ${IDARRAY[i]}"
+			ssh ${PIARRAY[i]} "sudo poweroff"
+		done
+		;;
+
 	SET_HOST)
 		for i in "${!PIARRAY[@]}"
 		do
 			echo "changing host in ${PIARRAY[i]} with ID: ${IDARRAY[i]}"
-			ssh ${PIARRAY[i]} "sudo hostname ${PIARRAY[i]}"
 			ssh ${PIARRAY[i]} "mkdir -p /home/pi/Desktop/${PIARRAY[i]}"
 		done
 		;;
