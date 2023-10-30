@@ -48,11 +48,12 @@ def read_ms_from_serial():
                 read = 0
                 break
             try:
-                print(data_raw.decode('latin-1'))
                 data = json.loads(data_raw.decode('latin-1'), strict=False)
                 if (read == 1):
-                    ms = int(data["time"])
-                    print(ms)
+                    try:
+                        ms = int(data["time"])
+                    except:
+                        ms = "NA"
                 err = 0
             except json.decoder.JSONDecodeError:
                 err = 1
@@ -63,7 +64,7 @@ def read_ms_from_serial():
             if err == 0:
                 break
     finally:
-        print("ms sent")
+        print("ms sent . . .")
     if read == 1 and (type(ms) == int or type(ms) == float):
         return(ms)
     else:
@@ -88,9 +89,8 @@ cv2.imwrite("/home/pi/Desktop/preview.jpg", img)
 os.system("rxvt -e sh -c 'bash /home/pi/scripts/run_preview.sh; bash' &")
 
 try:
-    print("starting frames")
+    print("starting frames . . .")
     while True:
-        start_time = time.time()
         img = video.capture_array()
         ms = read_ms_from_serial()
         date_ = str(datetime.now()).replace(" ", "_")
@@ -99,7 +99,6 @@ try:
         cv2.imwrite("/home/pi/Desktop/preview.jpg", img)
         frame_number = frame_number + 1
         print(filename)
-        print(time.time() - start_time)
 except KeyboardInterrupt:
     pass
 

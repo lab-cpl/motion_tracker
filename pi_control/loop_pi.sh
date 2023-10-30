@@ -22,7 +22,8 @@ case $C in
 		for i in "${!PIARRAY[@]}"
 		do
 			echo "stopin frames in ${PIARRAY[i]} with ID: ${IDARRAY[i]}"
-			ssh ${PIARRAY[i]} "pkill python3 && pkill rxvt"
+			ssh ${PIARRAY[i]} "pkill python3"
+			ssh ${PIARRAY[i]} "pkill rxvt"
 		done
 		;;
 
