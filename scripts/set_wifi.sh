@@ -1,3 +1,4 @@
 #!/bin/sh
 
-sudo echo 'auto lo\niface lo inet loopback' > /etc/network/interfaces
+sudo echo 'auto lo
+iface lo inet loopback' > /etc/network/interfaces
