@@ -41,8 +41,10 @@ try:
         data_decoded = data_raw.decode('latin-1')
         if "START" in data_decoded:
             print("Start recording...")
+            picam2.start_recording(encoder, "out.mp4")
         elif "STOP" in data_decoded:
             print("Stop recording...")
+            picam2.stop_recording()
 finally:
     print("Done")
         
