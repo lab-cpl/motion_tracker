@@ -15,6 +15,8 @@ fi
 
 # Generate the network block
 NETWORK_BLOCK="
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+country=CL
 network={
     ssid=\"$SSID\"
     psk=\"$PASSWORD\"
