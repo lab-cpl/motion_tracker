@@ -1,5 +1,6 @@
 from picamera2.encoders import H264Encoder
 from picamera2 import Picamera2
+from picamera2.outputs import FfmpegOutput
 import time
 import serial
 import serial.tools.list_ports
@@ -10,7 +11,7 @@ video_config = picam2.create_video_configuration(main={"size":(640,480)})
 picam2.configure(video_config)
 
 # set to 10M
-encoder = H264Encoder(bitrate=1000000)
+encoder = H264Encoder(bitrate=10000000)
 
 # loop to get info from lickometer
 
