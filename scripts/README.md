@@ -10,3 +10,8 @@ sudo apt-get install git
 ```console
 git clone https://github.com/lab-cpl/motion_tracker.git
 ```
+
+# allow for script execution
+```console
+chmod +x /home/pi/motion_tracker/*.sh
+```
