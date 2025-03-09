@@ -20,3 +20,5 @@ chmod +x /home/pi/motion_tracker/*.sh
 ```console
 sudo bash /home/pi/motion_tracker/auto_run.sh
 ```
+
+# test
