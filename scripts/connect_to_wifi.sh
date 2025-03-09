@@ -9,8 +9,8 @@ WPA_CONF="/etc/wpa_supplicant/wpa_supplicant.conf"
 
 # Check if wpa_supplicant.conf exists
 if [ ! -f "$WPA_CONF" ]; then
-  echo "Error: wpa_supplicant.conf not found."
-  exit 1
+  echo "Error: wpa_supplicant.conf not found., file created"
+  touch /etc/wpa_supplicant/wpa_supplicant.conf
 fi
 
 # Generate the network block
