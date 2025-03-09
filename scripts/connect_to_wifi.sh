@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # WiFi SSID and password
-SSID="'Depto 901'"
+SSID="Depto 901"
 PASSWORD="dw4yb26f"
 
 # Path to wpa_supplicant.conf
