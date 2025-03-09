@@ -39,6 +39,8 @@ try:
     while True:
         data_raw = ser.readline()
         print(data_raw.decode('latin-1'))
+finally:
+    print("Done")
         
 
 
