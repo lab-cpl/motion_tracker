@@ -24,3 +24,19 @@ sudo bash /home/pi/motion_tracker/scripts/auto_run.sh
 ```console
 sudo bash /home/pi/motion_tracker/scripts/set_wifi.sh
 ```
+
+# connect to wifi
+```
+sudo raspi-config
+```
+System options -> Wireless LAN -> set SSID and PASSWORD
+```
+sudo reboot
+```
+
+# install python picamera2
+```
+sudo apt-get full-upgrade
+libcamera-hello --list-cameras
+```
+this should list the IR camera, something like "SGBRG10_CSI2P"
