@@ -33,6 +33,7 @@ print("Connection ready!")
 ms = "NA"
 ser.close()
 ser.open()
+f = 1
 
 
 def read_ms_from_serial():
@@ -64,7 +65,7 @@ def read_ms_from_serial():
             if err == 0:
                 break
     finally:
-        print("ms sent . . .")
+        f = 0
     if read == 1 and (type(ms) == int or type(ms) == float):
         return(ms)
     else:
