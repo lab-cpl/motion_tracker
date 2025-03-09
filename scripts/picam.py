@@ -38,7 +38,11 @@ print("Connection ready!")
 try:
     while True:
         data_raw = ser.readline()
-        print(data_raw.decode('latin-1'))
+        data_decoded = data_raw.decode('latin-1')
+        if data_decoded == "START":
+            print("Start recording...")
+        elif data_decoded == "STOP":
+            print("Stop recording...")
 finally:
     print("Done")
         
