@@ -10,7 +10,7 @@ video_config = picam2.create_video_configuration(main={"size":(640,480)})
 picam2.configure(video_config)
 
 # set to 10M
-encoder = H264Enconder(bitrate=1000000)
+encoder = H264Encoder(bitrate=1000000)
 
 # loop to get info from lickometer
 
