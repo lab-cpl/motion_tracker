@@ -15,3 +15,8 @@ git clone https://github.com/lab-cpl/motion_tracker.git
 ```console
 chmod +x /home/pi/motion_tracker/*.sh
 ```
+
+# run auto_run.sh
+```console
+sudo bash /home/pi/motion_tracker/auto_run.sh
+```
