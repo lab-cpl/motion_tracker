@@ -39,9 +39,9 @@ try:
     while True:
         data_raw = ser.readline()
         data_decoded = data_raw.decode('latin-1')
-        if data_decoded == "START":
+        if "START" in data_decoded:
             print("Start recording...")
-        elif data_decoded == "STOP":
+        elif "STOP" in data_decoded:
             print("Stop recording...")
 finally:
     print("Done")
