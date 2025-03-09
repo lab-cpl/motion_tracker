@@ -21,4 +21,5 @@ chmod +x /home/pi/motion_tracker/*.sh
 sudo bash /home/pi/motion_tracker/auto_run.sh
 ```
 
-# test SUCCESS SUCCESS SUCCESS
+# set wifi
+run the set_wifi.sh script
