@@ -41,6 +41,8 @@ print("Connection ready!")
 # this loop searches for the arduino signal
 flag_latency = "idle"
 flag_trial = "idle"
+prev_event = 0
+event = 0
 try:
     while True:
         data_raw = ser.readline()
@@ -48,7 +50,8 @@ try:
             data_decoded = data_raw.decode('latin-1')
             data_json = json.loads(data_raw)
             if type(data_json) == dict:
-                if data_json['lick'] > 0 and flag_latency == "idle":
+                event = data_json['event']
+                if event != prev_event and data_json['lick'] >= 0:
                     print("Start recording latency")
                     flag_trial = "idle"
                     flag_latency = "recording"
@@ -56,6 +59,7 @@ try:
                     print("Start recording trial")
                     flag_latency = "idle"
                     flag_trial = "recording"
+                prev_event = event
         except json.decoder.JSONDecodeError:
             print("the string does not contain valid JSON")
         except UnicodeDecodeError:
