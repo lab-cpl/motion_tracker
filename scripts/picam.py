@@ -105,8 +105,10 @@ try:
             # but if the animal does {0, 1..4} and then {1, 1..4} no event was triggered but the event is probably going to be different
             # between sensors, so we also neeed to check that the difference in event number is only considered when the readings
             # come from the same sensor.
-                prev_event = event
-                prev_sensor = sensor
+                if (LICKS != -1):
+                    prev_event = event
+                    prev_sensor = sensor
+                    
         except json.decoder.JSONDecodeError:
             print("the string does not contain valid JSON")
         except UnicodeDecodeError:
