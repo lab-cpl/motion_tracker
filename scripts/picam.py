@@ -39,16 +39,27 @@ ser.baudrate = 115200
 print("Connection ready!")
 
 # this loop searches for the arduino signal
+flag_latency = "idle"
+flag_trial = "idle"
 try:
     while True:
         data_raw = ser.readline()
-        data_decoded = data_raw.decode('latin-1')
-        data_json = json.loads(data_raw.decode('latin-1'))
-        print(data_json["time"])
+        try:
+            data_decoded = data_raw.decode('latin-1')
+            data_json = json.loads(data_raw)
+            if type(data_json) == dict:
+                if data_json['lick'] > 0 and flag_latency == "idle":
+                    print("Start recording latency")
+                    flag_trial = "idle"
+                    flag_latency = "recording"
+                elif data_json['lick'] == -1 and flag_trial == "idle":
+                    print("Start recording trial")
+                    flag_latency = "idle"
+                    flag_trial = "recording"
         except json.decoder.JSONDecodeError:
-            print('The string does not contain valid JSON')
+            print("the string does not contain valid JSON")
         except UnicodeDecodeError:
-            print('Incorrect decoding')
+            print("incorrect decoding")
         # for a json string this follow this form
         # if(dict_name["key1"]["following_status"]=="followed")
         # "following status" is within "key1"
