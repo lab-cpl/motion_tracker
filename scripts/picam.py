@@ -43,51 +43,72 @@ flag_latency = "idle"
 flag_trial = "idle"
 prev_event = 0
 event = 0
+sensor = 0
+
+# NOTE: to preview just do some events and nosepoke and remove the flash drive to see the videos
 try:
     while True:
+    # this part reads the chunk from the serial bus
         data_raw = ser.readline()
         try:
             data_decoded = data_raw.decode('latin-1')
+            # this unpacks the json chunk
             data_json = json.loads(data_raw)
+            # when the reading is not good we skip it
+            # good reads are always of the python dictionary type
             if type(data_json) == dict:
+            # we first get the number of events and the sensor 
                 event = data_json['event']
-                if event != prev_event and data_json['lick'] >= 0:
+                sensor = data_json['sensor']
+                ID = data_json['id']
+                TIME = data_json['time']
+                LICKS = data_json['lick']
+            # if the number of event changes (using prev_event we know that)
+            # and the number of licks is greater than 0 (-1 indicates nosepoke activity)
+            # that means that the animal triggered an event and is in the 'latency' phase
+            # so probably exploring, this phase ends when the animal does another nosepoke
+                if event != prev_event and sensor == prev_sensor and data_json['lick'] >= 0:
                     print("Start recording latency")
+                    # this is the filename
+                    # animal id + time in ms + licks or -1 for nosepokes + sensor number + number of events
+                    filename = "LATENCY"+"_"+str(ID)+"_"+str(TIME)+"_"+str(LICKS)+"_"+str(sensor)+"_"+str(event)+".mp4"
+                    # idle means that phase is not active
                     flag_trial = "idle"
+                    # the current phase becomes active by recording
                     flag_latency = "recording"
+                    # stop recording previous trail
+                    picam2.stop_recording()
+                    # start recording latency, this should be later on re-encoded we skip ffmpeg on the fly output to be faster
+                    picam2.start_recording(encoder, filename)
+            # here is the same idea but for nosepokes, if licks -1 and flag_trial === idle
+            # which means that the previous phase was a triggered event, the we start recording
+            # what comes after the nosepoke, this is important otherwise is would start multiple recordings
+            # for the length that the animal does the nosepoke
                 elif data_json['lick'] == -1 and flag_trial == "idle":
                     print("Start recording trial")
+                    # animal id + time in ms + licks or -1 for nosepokes + sensor number + number of events
+                    # notice here that event corresponds to the previous event as with nosepokes the event does not change
+                    filename = "TRIAL"+"_"+str(ID)+"_"+str(TIME)+"_"+str(LICKS)+"_"+str(sensor)+"_"+str(event)+".mp4"
                     flag_latency = "idle"
                     flag_trial = "recording"
+                    # stop recording previous latency
+                    picam2.stop_recording()
+                    # start recording trial, this should be later on re-encoded we skip ffmpeg on the fly output to be faster
+                    picam2.start_recording(encoder, filename)
+            # this stores the event number and the sensor so that comparisons can be made
+            # for example with 2 sensor we have {0, 1} as possible sensor numbers
+            # so if we get a lick in sensor 0 {event, sensor} is going to be
+            # {0, 1}, {0, 2}, {0, 3} ... and so on, if the animal stays in the same sensor
+            # we are going to get {0, 5} (event triggered after 5 licks) which is a new a events and that would trigger a latency recording
+            # but if the animal does {0, 1..4} and then {1, 1..4} no event was triggered but the event is probably going to be different
+            # between sensors, so we also neeed to check that the difference in event number is only considered when the readings
+            # come from the same sensor.
                 prev_event = event
+                prev_sensor = sensor
         except json.decoder.JSONDecodeError:
             print("the string does not contain valid JSON")
         except UnicodeDecodeError:
             print("incorrect decoding")
-        # for a json string this follow this form
-        # if(dict_name["key1"]["following_status"]=="followed")
-        # "following status" is within "key1"
-        # to adapt the code I just need "new_event", "new_poke"
-        # that way is easier to get a simple reading
-        # so if this is to start recording after nosepoke
-        # I read nosePoke_state
-        # if nosePoke_state == TRUE
-        # stop any previous recordings
-        # start recording file is going to be called animal_date_T_trialnumber
-        #if "START" in data_decoded:
-        #    print("Start recording...")
-        #    timestamp = str(time.time())
-        #    picam2.start_recording(encoder, "out_"+timestamp+".mp4")
-        # then here start a while loop
-        # while bussy_sensor signal is FALSE keep doing pass
-        # while (bussy_sensor_signal == 0):
-        #   pass
-        # after this stop recording, because this mean that animal triggered an event
-        # replay this previously saved file in desktop
-        # immediately start another recording with animal_date_L_(trialnumber - 1)
-        #elif "STOP" in data_decoded:
-        #    print("Stop recording...")
-        #    picam2.stop_recording()
 finally:
     print("Done")
         

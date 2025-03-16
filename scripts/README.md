@@ -40,3 +40,18 @@ sudo apt-get full-upgrade
 libcamera-hello --list-cameras
 ```
 this should list the IR camera, something like "SGBRG10_CSI2P"
+
+# switch to X11
+```
+sudo raspi-config
+advanced options
+A6 Wayland
+select X11
+```
+
+# make scripts autostart
+```
+cp /etc/xdg/lxsession/LXDE-pi/autostart /home/pi/.config/lxsession/LXDE-pi/
+add following lines at the end of that file
+@lxterminal -e python3 /home/pi/motion_tracker/scripts/picam.py
+```
