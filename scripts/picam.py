@@ -8,6 +8,7 @@ import json
 import warnings
 import subprocess
 from datetime import datetime
+import os
 
 # start the object and set video resolution
 picam2 = Picamera2()
