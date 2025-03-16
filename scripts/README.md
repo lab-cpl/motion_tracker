@@ -55,3 +55,11 @@ cp /etc/xdg/lxsession/LXDE-pi/autostart /home/pi/.config/lxsession/LXDE-pi/
 add following lines at the end of that file
 @lxterminal -e python3 /home/pi/motion_tracker/scripts/picam.py
 ```
+
+# basic procedure
+
+- reboot pi
+- wait for a terminal to open and the connection succesful message
+- start your arduino program as usual
+- test out 1 event and 1 nosepoke a folder should appear in pi desktop
+- a preview of the previous event should appear in pi
