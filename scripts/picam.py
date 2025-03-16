@@ -73,7 +73,7 @@ try:
                 if event != prev_event and sensor == prev_sensor and data_json['lick'] >= 0:
                     if filename != "default":
                         # preview the newest file in the folder, that is, the previous recording
-                        p = subprocess.Popen(["/usr/bin/vlc",filename])
+                        p = subprocess.Popen(["/usr/bin/vlc",filename, '--play-and-exit'])
 
                     print("Start recording latency")
                     # this is the filename
@@ -95,7 +95,7 @@ try:
                 elif data_json['lick'] == -1 and flag_trial == "idle":
                     if filename != "default":
                         # preview the newest file in the folder, that is, the previous recording
-                        p = subprocess.Popen(["/usr/bin/vlc",filename])
+                        p = subprocess.Popen(["/usr/bin/vlc",filename, '--play-and-exit'])
                     print("Start recording trial")
                     # animal id + time in ms + licks or -1 for nosepokes + sensor number + number of events
                     # notice here that event corresponds to the previous event as with nosepokes the event does not change
