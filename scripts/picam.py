@@ -70,6 +70,10 @@ try:
             # that means that the animal triggered an event and is in the 'latency' phase
             # so probably exploring, this phase ends when the animal does another nosepoke
                 if event != prev_event and sensor == prev_sensor and data_json['lick'] >= 0:
+                    if len(filename) > 1:
+                        # preview the newest file in the folder, that is, the previous recording
+                        p = subprocess.Popen(["/usr/bin/vlc",filename])
+
                     print("Start recording latency")
                     # this is the filename
                     # animal id + time in ms + licks or -1 for nosepokes + sensor number + number of events
@@ -80,8 +84,6 @@ try:
                     flag_latency = "recording"
                     # stop recording previous trail
                     picam2.stop_recording()
-                    # preview the newest file in the folder, that is, the previous recording
-                    p = subprocess.Popen(["/usr/bin/vlc",filename])
                     # start recording latency, this should be later on re-encoded we skip ffmpeg on the fly output to be faster
                     output = FfmpegOutput(filename, audio=False)
                     picam2.start_recording(encoder, output)
@@ -90,6 +92,9 @@ try:
             # what comes after the nosepoke, this is important otherwise is would start multiple recordings
             # for the length that the animal does the nosepoke
                 elif data_json['lick'] == -1 and flag_trial == "idle":
+                    if len(filename) > 1:
+                        # preview the newest file in the folder, that is, the previous recording
+                        p = subprocess.Popen(["/usr/bin/vlc",filename])
                     print("Start recording trial")
                     # animal id + time in ms + licks or -1 for nosepokes + sensor number + number of events
                     # notice here that event corresponds to the previous event as with nosepokes the event does not change
@@ -98,7 +103,6 @@ try:
                     flag_trial = "recording"
                     # stop recording previous latency
                     picam2.stop_recording()
-                    p = subprocess.Popen(["/usr/bin/vlc",filename])
                     # start recording trial, this should be later on re-encoded we skip ffmpeg on the fly output to be faster
                     output = FfmpegOutput(filename, audio=False)
                     picam2.start_recording(encoder, output)
