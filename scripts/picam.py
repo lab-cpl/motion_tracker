@@ -7,6 +7,7 @@ import serial.tools.list_ports
 import json
 import warnings
 import subprocess
+from datetime import datetime
 
 # start the object and set video resolution
 picam2 = Picamera2()
@@ -46,8 +47,8 @@ prev_sensor = 0
 event = 0
 sensor = 0
 filename = "default"
+DATE = datetime.today().strftime('%Y-%m-%d_%H:%M:%S')
 
-# NOTE: to preview just do some events and nosepoke and remove the flash drive to see the videos
 try:
     while True:
     # this part reads the chunk from the serial bus
@@ -66,6 +67,10 @@ try:
                 TIME = data_json['time']
                 LICKS = data_json['lick']
                 print("Event: " + str(event) + "Sensor: " + str(sensor) + "ID: " + str(ID) + "time: " + str(TIME) + "licks: " + str(LICKS))
+                # create folder to store files
+                DIR = "/home/pi/Desktop/" + str(ID) + "_" + str(DATE))
+                if not os.path.exists(DIR):
+                    os.makedirs(DIR)
             # if the number of event changes (using prev_event we know that)
             # and the number of licks is greater than 0 (-1 indicates nosepoke activity)
             # that means that the animal triggered an event and is in the 'latency' phase
@@ -78,7 +83,7 @@ try:
                     print("Start recording latency")
                     # this is the filename
                     # animal id + time in ms + licks or -1 for nosepokes + sensor number + number of events
-                    filename = "LATENCY"+"_"+str(ID)+"_"+str(TIME)+"_"+str(LICKS)+"_"+str(sensor)+"_"+str(event)+".mp4"
+                    filename = DIR + "/" + "LATENCY"+"_"+str(ID)+"_"+str(TIME)+"_"+str(LICKS)+"_"+str(sensor)+"_"+str(event)+".mp4"
                     # idle means that phase is not active
                     flag_trial = "idle"
                     # the current phase becomes active by recording
@@ -99,7 +104,7 @@ try:
                     print("Start recording trial")
                     # animal id + time in ms + licks or -1 for nosepokes + sensor number + number of events
                     # notice here that event corresponds to the previous event as with nosepokes the event does not change
-                    filename = "TRIAL"+"_"+str(ID)+"_"+str(TIME)+"_"+str(LICKS)+"_"+str(sensor)+"_"+str(prev_event)+".mp4"
+                    filename = DIR + "/" + "TRIAL"+"_"+str(ID)+"_"+str(TIME)+"_"+str(LICKS)+"_"+str(sensor)+"_"+str(prev_event)+".mp4"
                     flag_latency = "idle"
                     flag_trial = "recording"
                     # stop recording previous latency
