@@ -80,6 +80,8 @@ try:
                     flag_latency = "recording"
                     # stop recording previous trail
                     picam2.stop_recording()
+                    # preview the newest file in the folder, that is, the previous recording
+                    p = subprocess.Popen(["/usr/bin/vlc",filename])
                     # start recording latency, this should be later on re-encoded we skip ffmpeg on the fly output to be faster
                     output = FfmpegOutput(filename, audio=False)
                     picam2.start_recording(encoder, output)
@@ -96,6 +98,7 @@ try:
                     flag_trial = "recording"
                     # stop recording previous latency
                     picam2.stop_recording()
+                    p = subprocess.Popen(["/usr/bin/vlc",filename])
                     # start recording trial, this should be later on re-encoded we skip ffmpeg on the fly output to be faster
                     output = FfmpegOutput(filename, audio=False)
                     picam2.start_recording(encoder, output)
