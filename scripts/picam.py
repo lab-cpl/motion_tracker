@@ -39,7 +39,8 @@ print("Connection ready!")
 try:
     while True:
         data_raw = ser.readline()
-        #data_decoded = data_raw.decode('latin-1')
+        data_decoded = data_raw.decode('latin-1')
+        print(data_decoded)
         # for a json string this follow this form
         # if(dict_name["key1"]["following_status"]=="followed")
         # "following status" is within "key1"
