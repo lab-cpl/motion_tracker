@@ -4,6 +4,9 @@ from picamera2.outputs import FfmpegOutput
 import time
 import serial
 import serial.tools.list_ports
+import json
+import warnings
+import subprocess
 
 # start the object and set video resolution
 picam2 = Picamera2()
@@ -42,6 +45,10 @@ try:
         data_decoded = data_raw.decode('latin-1')
         data_json = json.loads(data_raw.decode('latin-1'))
         print(data_json["time"])
+        except json.decoder.JSONDecodeError:
+            print('The string does not contain valid JSON')
+        except UnicodeDecodeError:
+            print('Incorrect decoding')
         # for a json string this follow this form
         # if(dict_name["key1"]["following_status"]=="followed")
         # "following status" is within "key1"
