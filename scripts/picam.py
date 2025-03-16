@@ -68,7 +68,7 @@ try:
                 LICKS = data_json['lick']
                 print("Event: " + str(event) + "Sensor: " + str(sensor) + "ID: " + str(ID) + "time: " + str(TIME) + "licks: " + str(LICKS))
                 # create folder to store files
-                DIR = "/home/pi/Desktop/" + str(ID) + "_" + str(DATE))
+                DIR = "/home/pi/Desktop/" + str(ID) + "_" + str(DATE)
                 if not os.path.exists(DIR):
                     os.makedirs(DIR)
             # if the number of event changes (using prev_event we know that)
