@@ -81,7 +81,8 @@ try:
                     # stop recording previous trail
                     picam2.stop_recording()
                     # start recording latency, this should be later on re-encoded we skip ffmpeg on the fly output to be faster
-                    picam2.start_recording(encoder, filename)
+                    output = FfmpegOutput(filename, audio=False)
+                    picam2.start_recording(encoder, output)
             # here is the same idea but for nosepokes, if licks -1 and flag_trial === idle
             # which means that the previous phase was a triggered event, the we start recording
             # what comes after the nosepoke, this is important otherwise is would start multiple recordings
@@ -96,7 +97,8 @@ try:
                     # stop recording previous latency
                     picam2.stop_recording()
                     # start recording trial, this should be later on re-encoded we skip ffmpeg on the fly output to be faster
-                    picam2.start_recording(encoder, filename)
+                    output = FfmpegOutput(filename, audio=False)
+                    picam2.start_recording(encoder, output)
             # this stores the event number and the sensor so that comparisons can be made
             # for example with 2 sensor we have {0, 1} as possible sensor numbers
             # so if we get a lick in sensor 0 {event, sensor} is going to be
