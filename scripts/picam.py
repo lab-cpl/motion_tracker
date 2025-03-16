@@ -42,6 +42,7 @@ print("Connection ready!")
 flag_latency = "idle"
 flag_trial = "idle"
 prev_event = 0
+prev_sensor = 0
 event = 0
 sensor = 0
 
