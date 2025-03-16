@@ -45,6 +45,7 @@ prev_event = 0
 prev_sensor = 0
 event = 0
 sensor = 0
+filename = "default"
 
 # NOTE: to preview just do some events and nosepoke and remove the flash drive to see the videos
 try:
@@ -70,7 +71,7 @@ try:
             # that means that the animal triggered an event and is in the 'latency' phase
             # so probably exploring, this phase ends when the animal does another nosepoke
                 if event != prev_event and sensor == prev_sensor and data_json['lick'] >= 0:
-                    if len(filename) > 1:
+                    if filename != "default":
                         # preview the newest file in the folder, that is, the previous recording
                         p = subprocess.Popen(["/usr/bin/vlc",filename])
 
@@ -92,7 +93,7 @@ try:
             # what comes after the nosepoke, this is important otherwise is would start multiple recordings
             # for the length that the animal does the nosepoke
                 elif data_json['lick'] == -1 and flag_trial == "idle":
-                    if len(filename) > 1:
+                    if filename != "default":
                         # preview the newest file in the folder, that is, the previous recording
                         p = subprocess.Popen(["/usr/bin/vlc",filename])
                     print("Start recording trial")
