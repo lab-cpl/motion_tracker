@@ -40,7 +40,12 @@ try:
     while True:
         data_raw = ser.readline()
         data_decoded = data_raw.decode('latin-1')
-        print(data_decoded)
+        data_json = json.loads(data_raw.decode('latin-1'))
+        print(data_json["time"])
+        except json.decoder.JSONDecodeError:
+            print('The string does not contain valid JSON')
+        except UnicodeDecodeError:
+            print('Incorrect decoding')
         # for a json string this follow this form
         # if(dict_name["key1"]["following_status"]=="followed")
         # "following status" is within "key1"
