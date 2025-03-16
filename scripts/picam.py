@@ -64,6 +64,7 @@ try:
                 ID = data_json['id']
                 TIME = data_json['time']
                 LICKS = data_json['lick']
+                print("Event: " + str(event) + "Sensor: " + str(sensor) + "ID: " + str(ID) + "time: " + str(TIME) + "licks: " + str(LICKS))
             # if the number of event changes (using prev_event we know that)
             # and the number of licks is greater than 0 (-1 indicates nosepoke activity)
             # that means that the animal triggered an event and is in the 'latency' phase
