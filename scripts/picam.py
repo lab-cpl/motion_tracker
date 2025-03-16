@@ -91,7 +91,7 @@ try:
                     print("Start recording trial")
                     # animal id + time in ms + licks or -1 for nosepokes + sensor number + number of events
                     # notice here that event corresponds to the previous event as with nosepokes the event does not change
-                    filename = "TRIAL"+"_"+str(ID)+"_"+str(TIME)+"_"+str(LICKS)+"_"+str(sensor)+"_"+str(event)+".mp4"
+                    filename = "TRIAL"+"_"+str(ID)+"_"+str(TIME)+"_"+str(LICKS)+"_"+str(sensor)+"_"+str(prev_event)+".mp4"
                     flag_latency = "idle"
                     flag_trial = "recording"
                     # stop recording previous latency
