@@ -58,6 +58,10 @@ try:
             data_decoded = data_raw.decode('latin-1')
             # this unpacks the json chunk
             data_json = json.loads(data_raw)
+            # to make another folder if there's a reset
+            if "testing" in data_decoded:
+                print("Reset!, creating new folder")
+                DATE = datetime.today().strftime('%Y-%m-%d_%H:%M:%S')
             # when the reading is not good we skip it
             # good reads are always of the python dictionary type
             if type(data_json) == dict:
