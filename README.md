@@ -51,6 +51,8 @@ select X11
 
 # make scripts autostart
 ```
+mkdir /home/pi/.config/lxsession
+mkdir /home/pi/.config/lxsession/LXDE-pi
 cp /etc/xdg/lxsession/LXDE-pi/autostart /home/pi/.config/lxsession/LXDE-pi/
 add following lines at the end of that file
 @lxterminal -e python3 /home/pi/motion_tracker/scripts/picam.py
