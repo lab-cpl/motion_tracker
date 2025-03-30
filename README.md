@@ -54,7 +54,7 @@ select X11
 mkdir /home/pi/.config/lxsession
 mkdir /home/pi/.config/lxsession/LXDE-pi
 cp /etc/xdg/lxsession/LXDE-pi/autostart /home/pi/.config/lxsession/LXDE-pi/
-add following lines at the end of that file
+add following line at the end of autostart in /etc/... and in .config/..
 @lxterminal -e python3 /home/pi/motion_tracker/scripts/picam.py
 ```
 
